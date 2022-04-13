@@ -1,19 +1,26 @@
-package com.adobe.aem.guides.wknd.core.service;
+package com.adobe.aem.guides.wknd.core.service.user;
 
 import com.adobe.aem.guides.wknd.core.dao.UserDao;
 import com.adobe.aem.guides.wknd.core.models.User;
+import com.adobe.aem.guides.wknd.core.service.db.DatabaseService;
 import com.google.gson.Gson;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserService
+@Component(immediate = true, service = UserService.class)
+public class UserServiceImpl implements UserService
 {
-    UserDao userDao = new UserDao();
+    @Reference
+    private UserDao userDao;
+    @Reference
+    private DatabaseService databaseService;
 
     public void register(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
@@ -27,12 +34,11 @@ public class UserService
         userDao.addUser(objUserConverter);
         response.setContentType("application/json");
 
-        response.getWriter().println("Usuario cadastrado com sucesso! " + gson.toJson(userDao.getUsers()));
+        response.getWriter().println("Usuario cadastrado com sucesso! ");
     }
 
     public String list(String name) {
         List<User> userList = userDao.getUsers();
-
         List<User> userTemp = new ArrayList<>();
         try {
 

@@ -8,5 +8,6 @@ json</property>
   <service>
     <provide interface="javax.servlet.Servlet"/>
   </service>
+  <reference name="userService" interface="com.adobe.aem.guides.wknd.core.service.user.UserService" field="userService"/>
   <implementation class="com.adobe.aem.guides.wknd.core.servlets.LoginServlet"/>
 </scr:component>

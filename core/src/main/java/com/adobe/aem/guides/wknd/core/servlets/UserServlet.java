@@ -15,30 +15,27 @@
  */
 package com.adobe.aem.guides.wknd.core.servlets;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
-import com.adobe.aem.guides.wknd.core.dao.UserDao;
-import com.adobe.aem.guides.wknd.core.exception.LoginInvalidException;
-import com.adobe.aem.guides.wknd.core.models.User;
 //import com.adobe.cq.wcm.core.components.models.List;
-import com.adobe.aem.guides.wknd.core.service.UserService;
-import com.google.gson.Gson;
+import com.adobe.aem.guides.wknd.core.models.User;
+import com.adobe.aem.guides.wknd.core.service.db.DatabaseService;
+import com.adobe.aem.guides.wknd.core.service.user.UserService;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.propertytypes.ServiceDescription;
 import static org.apache.sling.api.servlets.ServletResolverConstants.*;
 
@@ -52,6 +49,7 @@ import static org.apache.sling.api.servlets.ServletResolverConstants.*;
 @Component(immediate = true, service = Servlet.class, property = {
         SLING_SERVLET_METHODS + "=" + "POST",
         SLING_SERVLET_METHODS + "=" + "GET",
+        SLING_SERVLET_METHODS + "=" + "DELETE",
         SLING_SERVLET_PATHS + "=" + "/bin/keepalive/userService",
         SLING_SERVLET_EXTENSIONS + "=" + "txt", SLING_SERVLET_EXTENSIONS + "=" + "json"})
 
@@ -59,7 +57,9 @@ import static org.apache.sling.api.servlets.ServletResolverConstants.*;
 public class UserServlet extends SlingAllMethodsServlet {
 
     private static final long serialVersionUID = 1L;
-    private UserService userService = new UserService();
+
+    @Reference
+    private UserService userService;
 
     @Override
     protected void doGet(final SlingHttpServletRequest req, final SlingHttpServletResponse resp) throws ServletException, IOException {
