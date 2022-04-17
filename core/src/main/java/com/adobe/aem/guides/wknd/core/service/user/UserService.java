@@ -9,11 +9,13 @@ import java.util.List;
 
 public interface UserService
 {
-    public void register(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException;
+    int register(SlingHttpServletRequest request) throws IOException;
 
-    public String list(String name);
+    String list(String name);
 
-    public boolean delete(String name);
+    boolean delete(String name);
 
-    public User login(String username, String password);
+    User login(String username, String password);
+
+    boolean update(String user, String username, String password, String name);
 }

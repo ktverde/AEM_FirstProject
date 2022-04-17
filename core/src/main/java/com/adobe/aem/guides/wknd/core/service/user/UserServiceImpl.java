@@ -1,16 +1,17 @@
 package com.adobe.aem.guides.wknd.core.service.user;
 
-import com.adobe.aem.guides.wknd.core.dao.UserDao;
+import com.adobe.aem.guides.wknd.core.dao.user.UserDao;
 import com.adobe.aem.guides.wknd.core.models.User;
 import com.adobe.aem.guides.wknd.core.service.db.DatabaseService;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.api.SlingHttpServletResponse;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,48 +23,72 @@ public class UserServiceImpl implements UserService
     @Reference
     private DatabaseService databaseService;
 
-    public void register(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
-        response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
+    public int register(SlingHttpServletRequest request) throws IOException {
+        int count = 0;
+        try {
+            BufferedReader reader = request.getReader();
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<User>>() {}.getType();
+            List<User> userList = new Gson().fromJson(reader, listType);
 
-
-        BufferedReader reader = request.getReader();
-        Gson gson = new Gson();
-
-        User objUserConverter = gson.fromJson(reader, User.class);
-        userDao.addUser(objUserConverter);
-        response.setContentType("application/json");
-
-        response.getWriter().println("Usuario cadastrado com sucesso! ");
+            for (User u : userList) {
+                if (userDao.getUserByUsername(u.getUsername()) == null) {
+                    userDao.addUser(u);
+                    count++;
+                }
+            }
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
+        return count;
     }
 
     public String list(String name) {
         List<User> userList = userDao.getUsers();
         List<User> userTemp = new ArrayList<>();
         try {
-
-            if (name == null || name.isEmpty() || name.isBlank()) {
-                userTemp = userList;
-            }
-
+            if (name == null || name.isEmpty() || name.isBlank()) userTemp = userList;
             else {
-                for (User u: userList) {
-                    if (u.getUsername().toLowerCase().contains(name.toLowerCase())) {
-                        userTemp.add(u);
-                        break;
-                    }
-                }
+                User user = userDao.getUserByUsername(name);
+                if (user != null) userTemp.add(user);
             }
         } catch(Exception e) {
             e.getStackTrace();
         }
-
-        String json = new Gson().toJson(userTemp);
-        return json;
+        return new Gson().toJson(userTemp);
     }
 
     public boolean delete(String name) {
-        return userDao.delete(name);
+        if (name == null || name.isEmpty() || name.isBlank()) return false;
+
+        if (userDao.getUserByUsername(name) != null) return userDao.delete(name);
+
+        return false;
+    }
+
+    public boolean update(String user, String username, String password, String name) {
+
+        if (user == null || user.isEmpty() || user.isBlank()) return false;
+
+        User u = userDao.getUserByUsername(user);
+        if (u != null) {
+
+            if(!u.getUsername().equals(username) && username != null) {
+                if (!username.isEmpty() || !username.isBlank())
+                    u.setUsername(username);
+            }
+            if(!u.getPassword().equals(password) && password != null) {
+                if (!password.isEmpty() || !password.isBlank())
+                    u.setPassword(password);
+            }
+            if(!u.getName().equals(name) && name != null) {
+                if (!name.isEmpty() || !name.isBlank())
+                    u.setName(name);
+            }
+
+            return userDao.update(user, u);
+        }
+        return false;
     }
 
     public User login(String username, String password) {

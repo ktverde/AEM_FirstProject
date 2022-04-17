@@ -4,6 +4,6 @@
     <provide interface="com.adobe.aem.guides.wknd.core.service.user.UserService"/>
   </service>
   <reference name="databaseService" interface="com.adobe.aem.guides.wknd.core.service.db.DatabaseService" field="databaseService"/>
-  <reference name="userDao" interface="com.adobe.aem.guides.wknd.core.dao.UserDao" field="userDao"/>
+  <reference name="userDao" interface="com.adobe.aem.guides.wknd.core.dao.user.UserDao" field="userDao"/>
   <implementation class="com.adobe.aem.guides.wknd.core.service.user.UserServiceImpl"/>
 </scr:component>

@@ -15,31 +15,23 @@
  */
 package com.adobe.aem.guides.wknd.core.servlets;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-
-//import com.adobe.cq.wcm.core.components.models.List;
+import com.adobe.aem.guides.wknd.core.models.Product;
 import com.adobe.aem.guides.wknd.core.models.User;
-import com.adobe.aem.guides.wknd.core.service.db.DatabaseService;
+import com.adobe.aem.guides.wknd.core.service.product.ProductService;
 import com.adobe.aem.guides.wknd.core.service.user.UserService;
-
-import com.drew.lang.annotations.NotNull;
 import com.google.gson.Gson;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
-
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.propertytypes.ServiceDescription;
+
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
+import java.io.BufferedReader;
+import java.io.IOException;
+
 import static org.apache.sling.api.servlets.ServletResolverConstants.*;
 
 /**
@@ -53,21 +45,21 @@ import static org.apache.sling.api.servlets.ServletResolverConstants.*;
         SLING_SERVLET_METHODS + "=" + "POST",
         SLING_SERVLET_METHODS + "=" + "GET",
         SLING_SERVLET_METHODS + "=" + "DELETE",
-        SLING_SERVLET_PATHS + "=" + "/bin/keepalive/userService",
+        SLING_SERVLET_PATHS + "=" + "/bin/keepalive/productService",
         SLING_SERVLET_EXTENSIONS + "=" + "txt", SLING_SERVLET_EXTENSIONS + "=" + "json"})
 
-@ServiceDescription("User Service All")
-public class UserServlet extends SlingAllMethodsServlet {
+@ServiceDescription("Product Service All")
+public class ProductServlet extends SlingAllMethodsServlet {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5L;
 
     @Reference
-    private UserService userService;
+    private ProductService productService;
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("username");
-        String json = userService.list(name);
+        String pId = request.getParameter("pId");
+        String json = productService.list(pId);
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);
     }
@@ -77,11 +69,11 @@ public class UserServlet extends SlingAllMethodsServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try{
-            int count = userService.register(request);
+            int count = productService.register(request);
             if(count > 0)
-                response.getWriter().write(count + " usuário(s) cadastrado(s) com sucesso");
+                response.getWriter().write(count + " produto(s) cadastrado(s) com sucesso");
             else
-                response.getWriter().write("Usuários já se encontram cadastrados");
+                response.getWriter().write("Id de produto(s) já se encontra(m) cadastrado(s)");
         }catch(Exception e){
             response.getWriter().write(e.getMessage());
         }
@@ -89,29 +81,30 @@ public class UserServlet extends SlingAllMethodsServlet {
 
     @Override
     protected void doDelete(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("username");
-        if(userService.delete(name))
-            response.getWriter().write("Usuario removido com sucesso");
+        String pId = request.getParameter("pId");
+        if(productService.delete(pId))
+            response.getWriter().write("Produto removido com sucesso");
         else
-            response.getWriter().write("Usuario nao existe em nosso sistema");
+            response.getWriter().write("Produto não existe em nosso sistema");
 
     }
 
     @Override
     protected void doPut(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
-        String user = request.getParameter("username");
+        String product = request.getParameter("pId");
 
         BufferedReader reader = request.getReader();
         Gson gson = new Gson();
-        User objUser = gson.fromJson(reader, User.class);
-        if(objUser != null){
-            if(userService.update(user, objUser.getUsername(), objUser.getPassword(), objUser.getName()))
-                response.getWriter().write("Usuario alterado com sucesso com os devidos dados informados. ");
+        Product objProduct = gson.fromJson(reader, Product.class);
+
+        if(objProduct != null){
+            if(productService.update(product, objProduct.getName(), objProduct.getDesc(), objProduct.getType(), objProduct.getPrice()))
+                response.getWriter().write("Produto alterado com sucesso com os devidos dados informados. ");
             else
-                response.getWriter().write("Usuario nao existe em nosso sistema");
+                response.getWriter().write("Produto nao existe em nosso sistema");
         }
         else
-            response.getWriter().write("Informe o Json do usuário para ser atualizado");
+            response.getWriter().write("Informe o Json do produto para ser atualizado");
 
     }
 }

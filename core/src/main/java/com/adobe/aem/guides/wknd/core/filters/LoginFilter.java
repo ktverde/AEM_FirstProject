@@ -62,10 +62,10 @@ public class LoginFilter implements Filter {
         String URI = slingRequest.getRequestURI();
 
 
-        if(!URI.contains("userService") || URI.contains("login")) filterChain.doFilter(slingRequest, slingResponse);
+        if(URI.contains("login")) filterChain.doFilter(slingRequest, slingResponse);
 
         else if ((jwtFakeToken == null || !jwtFakeToken.getValue().equals("minha_chave"))) {
-            slingResponse.sendError(SlingHttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
+            slingResponse.sendError(SlingHttpServletResponse.SC_UNAUTHORIZED, "The access token is not valid.");
             throw new LoginInvalidException();
         }
         else
