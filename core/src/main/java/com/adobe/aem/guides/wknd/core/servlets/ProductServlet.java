@@ -31,6 +31,7 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 import static org.apache.sling.api.servlets.ServletResolverConstants.*;
 
@@ -81,11 +82,17 @@ public class ProductServlet extends SlingAllMethodsServlet {
 
     @Override
     protected void doDelete(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
-        String pId = request.getParameter("pId");
-        if(productService.delete(pId))
-            response.getWriter().write("Produto removido com sucesso");
-        else
-            response.getWriter().write("Produto não existe em nosso sistema");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        try {
+            int count = productService.delete(request);
+            if (count > 0)
+                response.getWriter().write(count + " produto(s) removido(s) com sucesso");
+            else
+                response.getWriter().write("Produto(s) não existe(m) em nosso sistema");
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
 
     }
 

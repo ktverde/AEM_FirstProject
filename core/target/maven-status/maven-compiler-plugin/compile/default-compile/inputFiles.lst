@@ -16,14 +16,17 @@ D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\listeners\package-info.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\service\product\ProductServiceImpl.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\service\user\UserServiceImpl.java
+D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\dao\tickets\TicketDaoImpl.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\models\Product.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\dao\user\UserDao.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\models\impl\BylineImpl.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\schedulers\package-info.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\exception\LoginInvalidException.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\models\HelloWorldModel.java
+D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\models\Ticket.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\dao\product\ProductDaoImpl.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\listeners\SimpleResourceListener.java
+D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\dao\tickets\TicketDao.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\schedulers\SimpleScheduledTask.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\servlets\package-info.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\servlets\ProductServlet.java

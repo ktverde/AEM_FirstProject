@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProductDao {
     List<Product> getAll();
     void add(Product product);
-    boolean delete(Long pId);
+    void delete(Long pId);
     boolean update(Long pId, Product product);
     Product getProductById(Long pId);
 }

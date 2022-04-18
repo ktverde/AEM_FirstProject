@@ -19,7 +19,7 @@ public class UserDaoImpl implements UserDao
     @Reference
     private DatabaseService databaseService;
 
-    public List<User> getUsers() {
+    public List<User> getAll() {
         List<User> listUsers = new ArrayList<>();
         try (Connection con = databaseService.getConnection()) {
             String sql = "SELECT * FROM users";
@@ -46,7 +46,7 @@ public class UserDaoImpl implements UserDao
         return listUsers;
     }
 
-    public void addUser(User user) {
+    public void add(User user) {
         try (Connection con = databaseService.getConnection()) {
             String sql = "INSERT INTO users (username, password, name) VALUES (?, ?, ?)";
 
@@ -92,15 +92,14 @@ public class UserDaoImpl implements UserDao
     }
 
     public User login(String username, String password) {
-        List<User> userList = getUsers();
-        for (User u : userList) {
-            if(u.getUsername().equals(username) && u.getPassword().equals(password))
-                return u;
+        User user = getUserByUsername(username);
+        if(user != null){
+            if(user.getPassword().equals(password)) return user;
         }
         return null;
     }
 
-    public boolean delete(String username) {
+    public void delete(String username) {
         try (Connection con = databaseService.getConnection()) {
             String sql = "DELETE FROM users WHERE username = ?";
 
@@ -116,7 +115,6 @@ public class UserDaoImpl implements UserDao
         catch (Exception e) {
             throw new RuntimeException(e.getMessage() + "3");
         }
-        return true;
     }
 
     public boolean update(String username, User user){

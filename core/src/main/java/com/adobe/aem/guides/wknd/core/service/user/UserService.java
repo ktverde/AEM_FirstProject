@@ -13,7 +13,7 @@ public interface UserService
 
     String list(String name);
 
-    boolean delete(String name);
+    int delete(SlingHttpServletRequest request);
 
     User login(String username, String password);
 

@@ -89,11 +89,11 @@ public class UserServlet extends SlingAllMethodsServlet {
 
     @Override
     protected void doDelete(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("username");
-        if(userService.delete(name))
-            response.getWriter().write("Usuario removido com sucesso");
+        int count = userService.delete(request);
+        if(count > 0)
+            response.getWriter().write(count + " usuário(s) removido(s) com sucesso");
         else
-            response.getWriter().write("Usuario nao existe em nosso sistema");
+            response.getWriter().write("Usuario(s) nao existe(m) em nosso sistema");
 
     }
 

@@ -30,27 +30,30 @@ Import-Package: javax.annotation;version="0.0.0",com.adobe.aem.guides.
  s.annotations.injectorspecific;version="[1.1,2)",org.apache.sling.mod
  els.factory;version="[1.4,2)",org.slf4j;version="[1.7,2)"
 Private-Package: com.adobe.aem.guides.wknd.core.dao.product,com.adobe.
- aem.guides.wknd.core.dao.user,com.adobe.aem.guides.wknd.core.exceptio
- n,com.adobe.aem.guides.wknd.core.models.impl,com.adobe.aem.guides.wkn
- d.core.service.db,com.adobe.aem.guides.wknd.core.service.product,com.
- adobe.aem.guides.wknd.core.service.user
+ aem.guides.wknd.core.dao.tickets,com.adobe.aem.guides.wknd.core.dao.u
+ ser,com.adobe.aem.guides.wknd.core.exception,com.adobe.aem.guides.wkn
+ d.core.models.impl,com.adobe.aem.guides.wknd.core.service.db,com.adob
+ e.aem.guides.wknd.core.service.product,com.adobe.aem.guides.wknd.core
+ .service.user
 Provide-Capability: osgi.service;objectClass:List<String>="com.adobe.a
  em.guides.wknd.core.dao.product.ProductDao";uses:="com.adobe.aem.guid
  es.wknd.core.dao.product",osgi.service;objectClass:List<String>="com.
- adobe.aem.guides.wknd.core.dao.user.UserDao";uses:="com.adobe.aem.gui
- des.wknd.core.dao.user",osgi.service;objectClass:List<String>="com.ad
- obe.aem.guides.wknd.core.service.db.DatabaseService";uses:="com.adobe
- .aem.guides.wknd.core.service.db",osgi.service;objectClass:List<Strin
- g>="com.adobe.aem.guides.wknd.core.service.product.ProductService";us
- es:="com.adobe.aem.guides.wknd.core.service.product",osgi.service;obj
- ectClass:List<String>="com.adobe.aem.guides.wknd.core.service.user.Us
- erService";uses:="com.adobe.aem.guides.wknd.core.service.user",osgi.s
- ervice;objectClass:List<String>="java.lang.Runnable",osgi.service;obj
- ectClass:List<String>="javax.servlet.Filter";uses:="javax.servlet",os
- gi.service;objectClass:List<String>="javax.servlet.Servlet";uses:="ja
- vax.servlet",osgi.service;objectClass:List<String>="org.apache.sling.
- api.resource.observation.ResourceChangeListener";uses:="org.apache.sl
- ing.api.resource.observation"
+ adobe.aem.guides.wknd.core.dao.tickets.TicketDao";uses:="com.adobe.ae
+ m.guides.wknd.core.dao.tickets",osgi.service;objectClass:List<String>
+ ="com.adobe.aem.guides.wknd.core.dao.user.UserDao";uses:="com.adobe.a
+ em.guides.wknd.core.dao.user",osgi.service;objectClass:List<String>="
+ com.adobe.aem.guides.wknd.core.service.db.DatabaseService";uses:="com
+ .adobe.aem.guides.wknd.core.service.db",osgi.service;objectClass:List
+ <String>="com.adobe.aem.guides.wknd.core.service.product.ProductServi
+ ce";uses:="com.adobe.aem.guides.wknd.core.service.product",osgi.servi
+ ce;objectClass:List<String>="com.adobe.aem.guides.wknd.core.service.u
+ ser.UserService";uses:="com.adobe.aem.guides.wknd.core.service.user",
+ osgi.service;objectClass:List<String>="java.lang.Runnable",osgi.servi
+ ce;objectClass:List<String>="javax.servlet.Filter";uses:="javax.servl
+ et",osgi.service;objectClass:List<String>="javax.servlet.Servlet";use
+ s:="javax.servlet",osgi.service;objectClass:List<String>="org.apache.
+ sling.api.resource.observation.ResourceChangeListener";uses:="org.apa
+ che.sling.api.resource.observation"
 Require-Capability: osgi.service;filter:="(objectClass=com.adobe.aem.g
  uides.wknd.core.dao.product.ProductDao)";effective:=active,osgi.servi
  ce;filter:="(objectClass=com.adobe.aem.guides.wknd.core.dao.user.User
@@ -64,19 +67,20 @@ Require-Capability: osgi.service;filter:="(objectClass=com.adobe.aem.g
  nder;filter:="(&(osgi.extender=osgi.component)(version>=1.4.0)(!(vers
  ion>=2.0.0)))",osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=11))"
 Service-Component: OSGI-INF/com.adobe.aem.guides.wknd.core.dao.product
- .ProductDaoImpl.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.dao.user.
- UserDaoImpl.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.filters.Loggi
- ngFilter.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.filters.LoginFil
- ter.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.listeners.SimpleResou
- rceListener.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.schedulers.Si
- mpleScheduledTask.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.service
- .db.DatabaseServiceImpl.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.s
- ervice.product.ProductServiceImpl.xml,OSGI-INF/com.adobe.aem.guides.w
- knd.core.service.user.UserServiceImpl.xml,OSGI-INF/com.adobe.aem.guid
- es.wknd.core.servlets.LoginServlet.xml,OSGI-INF/com.adobe.aem.guides.
- wknd.core.servlets.ProductServlet.xml,OSGI-INF/com.adobe.aem.guides.w
- knd.core.servlets.SimpleServlet.xml,OSGI-INF/com.adobe.aem.guides.wkn
- d.core.servlets.UserServlet.xml
+ .ProductDaoImpl.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.dao.ticke
+ ts.TicketDaoImpl.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.dao.user
+ .UserDaoImpl.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.filters.Logg
+ ingFilter.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.filters.LoginFi
+ lter.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.listeners.SimpleReso
+ urceListener.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.schedulers.S
+ impleScheduledTask.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.servic
+ e.db.DatabaseServiceImpl.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.
+ service.product.ProductServiceImpl.xml,OSGI-INF/com.adobe.aem.guides.
+ wknd.core.service.user.UserServiceImpl.xml,OSGI-INF/com.adobe.aem.gui
+ des.wknd.core.servlets.LoginServlet.xml,OSGI-INF/com.adobe.aem.guides
+ .wknd.core.servlets.ProductServlet.xml,OSGI-INF/com.adobe.aem.guides.
+ wknd.core.servlets.SimpleServlet.xml,OSGI-INF/com.adobe.aem.guides.wk
+ nd.core.servlets.UserServlet.xml
 Sling-Model-Classes: com.adobe.aem.guides.wknd.core.models.HelloWorldM
  odel,com.adobe.aem.guides.wknd.core.models.impl.BylineImpl
 

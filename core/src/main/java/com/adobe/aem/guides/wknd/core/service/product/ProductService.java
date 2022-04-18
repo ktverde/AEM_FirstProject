@@ -12,7 +12,7 @@ public interface ProductService
 
     String list(String pId);
 
-    boolean delete(String pId);
+    int delete(SlingHttpServletRequest request);
 
     boolean update(String pId, String name, String desc, String type, BigDecimal price);
 }

@@ -30,7 +30,6 @@ public class ProductServiceImpl implements ProductService
         int count = 0;
         try {
             BufferedReader reader = request.getReader();
-            Gson gson = new Gson();
             Type listType = new TypeToken<List<Product>>() {}.getType();
             List<Product> productList = new Gson().fromJson(reader, listType);
 
@@ -62,14 +61,24 @@ public class ProductServiceImpl implements ProductService
         return new Gson().toJson(productTemp);
     }
 
-    public boolean delete(String pId) {
-        if (pId == null || pId.isEmpty() || pId.isBlank() || notLong(pId)) return false;
+    public int delete(SlingHttpServletRequest request) {
+        int count = 0;
+        try {
+            BufferedReader reader = request.getReader();
+            Type listType = new TypeToken<List<Product>>() {
+            }.getType();
+            List<Product> productList = new Gson().fromJson(reader, listType);
 
-        Long id = Long.parseLong(pId);
-
-        if (productDao.getProductById(id) != null) return productDao.delete(id);
-
-        return false;
+            for (Product p : productList) {
+                if (productDao.getProductById(p.getpId()) != null) {
+                    productDao.delete(p.getpId());
+                    count++;
+                }
+            }
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+        return count;
     }
 
     public boolean update(String pId, String name, String desc, String type, BigDecimal price) {

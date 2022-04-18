@@ -27,13 +27,12 @@ public class UserServiceImpl implements UserService
         int count = 0;
         try {
             BufferedReader reader = request.getReader();
-            Gson gson = new Gson();
             Type listType = new TypeToken<List<User>>() {}.getType();
             List<User> userList = new Gson().fromJson(reader, listType);
 
             for (User u : userList) {
                 if (userDao.getUserByUsername(u.getUsername()) == null) {
-                    userDao.addUser(u);
+                    userDao.add(u);
                     count++;
                 }
             }
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService
     }
 
     public String list(String name) {
-        List<User> userList = userDao.getUsers();
+        List<User> userList = userDao.getAll();
         List<User> userTemp = new ArrayList<>();
         try {
             if (name == null || name.isEmpty() || name.isBlank()) userTemp = userList;
@@ -58,12 +57,23 @@ public class UserServiceImpl implements UserService
         return new Gson().toJson(userTemp);
     }
 
-    public boolean delete(String name) {
-        if (name == null || name.isEmpty() || name.isBlank()) return false;
+    public int delete(SlingHttpServletRequest request) {
+        int count = 0;
+        try {
+            BufferedReader reader = request.getReader();
+            Type listType = new TypeToken<List<User>>() {}.getType();
+            List<User> userList = new Gson().fromJson(reader, listType);
 
-        if (userDao.getUserByUsername(name) != null) return userDao.delete(name);
-
-        return false;
+            for (User u : userList) {
+                if (userDao.getUserByUsername(u.getUsername()) != null) {
+                    userDao.delete(u.getUsername());
+                    count++;
+                }
+            }
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
+        return count;
     }
 
     public boolean update(String user, String username, String password, String name) {
