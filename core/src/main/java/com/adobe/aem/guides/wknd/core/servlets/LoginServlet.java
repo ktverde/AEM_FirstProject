@@ -21,7 +21,6 @@ import javax.servlet.Servlet;
 import javax.servlet.http.Cookie;
 
 import com.adobe.aem.guides.wknd.core.models.User;
-//import com.adobe.cq.wcm.core.components.models.List;
 import com.adobe.aem.guides.wknd.core.service.user.UserService;
 import com.google.gson.Gson;
 
@@ -66,7 +65,8 @@ public class LoginServlet extends SlingAllMethodsServlet {
         User user = userService.login(username, password);
         if(user == null) throw new RuntimeException("User or password is invalid");
         else{
-            Cookie cookie = new Cookie("token", "minha_chave");
+            String jwtToken = "minha_chave";
+            Cookie cookie = new Cookie("token", jwtToken);
             cookie.setMaxAge(30 * 60);
 
             response.addCookie(cookie);

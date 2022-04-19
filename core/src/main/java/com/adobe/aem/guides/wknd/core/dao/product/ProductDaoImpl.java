@@ -11,7 +11,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component(immediate = true, service = ProductDao.class)
 public class ProductDaoImpl implements ProductDao
@@ -21,10 +23,12 @@ public class ProductDaoImpl implements ProductDao
     @Reference
     private DatabaseService databaseService;
 
-    public List<Product> getAll() {
-        List<Product> listProducts = new ArrayList<>();
+    public Set<Product> getAll(boolean order) {
+        Set<Product> listProducts = new HashSet<>();
+        String sql;
         try (Connection con = databaseService.getConnection()) {
-            String sql = "SELECT * FROM products";
+            if(order) sql = "SELECT * FROM products ORDER BY price ASC";
+            else sql = "SELECT * FROM products";
 
             try(PreparedStatement pst = con.prepareStatement(sql)) {
                 pst.execute();
@@ -47,6 +51,7 @@ public class ProductDaoImpl implements ProductDao
         }
         return listProducts;
     }
+
 
     public void add(Product product) {
         try (Connection con = databaseService.getConnection()) {

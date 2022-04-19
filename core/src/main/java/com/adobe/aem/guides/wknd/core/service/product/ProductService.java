@@ -10,7 +10,7 @@ public interface ProductService
 {
     int register(SlingHttpServletRequest request) throws IOException;
 
-    String list(String pId);
+    String list(SlingHttpServletRequest request);
 
     int delete(SlingHttpServletRequest request);
 

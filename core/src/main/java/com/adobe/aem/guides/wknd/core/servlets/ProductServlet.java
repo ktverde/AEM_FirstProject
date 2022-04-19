@@ -59,8 +59,7 @@ public class ProductServlet extends SlingAllMethodsServlet {
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
-        String pId = request.getParameter("pId");
-        String json = productService.list(pId);
+        String json = productService.list(request);
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);
     }

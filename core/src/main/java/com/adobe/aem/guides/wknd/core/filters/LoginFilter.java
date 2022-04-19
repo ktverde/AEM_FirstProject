@@ -26,6 +26,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 
 import com.adobe.aem.guides.wknd.core.exception.LoginInvalidException;
+//import com.adobe.aem.guides.wknd.core.utils.JwtUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.engine.EngineConstants;
@@ -58,13 +59,13 @@ public class LoginFilter implements Filter {
         final SlingHttpServletRequest slingRequest = (SlingHttpServletRequest) request;
         final SlingHttpServletResponse slingResponse = (SlingHttpServletResponse) response;
 
-        Cookie jwtFakeToken = slingRequest.getCookie("token");
+        Cookie jwtToken = slingRequest.getCookie("token");
         String URI = slingRequest.getRequestURI();
 
 
         if(URI.contains("login")) filterChain.doFilter(slingRequest, slingResponse);
 
-        else if ((jwtFakeToken == null || !jwtFakeToken.getValue().equals("minha_chave"))) {
+        else if ((jwtToken == null || !jwtToken.getValue().equals("minha_chave"))) {
             slingResponse.sendError(SlingHttpServletResponse.SC_UNAUTHORIZED, "The access token is not valid.");
             throw new LoginInvalidException();
         }

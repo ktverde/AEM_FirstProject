@@ -15,8 +15,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component(immediate = true, service = ProductService.class)
 public class ProductServiceImpl implements ProductService
@@ -45,16 +44,35 @@ public class ProductServiceImpl implements ProductService
         return count;
     }
 
-    public String list(String pId) {
-        List<Product> productList = productDao.getAll();
-        List<Product> productTemp = new ArrayList<>();
+    public String list(SlingHttpServletRequest request) {
+        String pId = request.getParameter("pId");
+        String searchFor = request.getParameter("searchFor");
+        String order = request.getParameter("order");
+
+        Set<Product> productList = productDao.getAll(false);
+        Set<Product> productTemp = new HashSet<>();
         try {
-            if (pId == null || pId.isEmpty() || pId.isBlank() || notLong(pId)) productTemp = productList;
-            else {
+
+            if(!(pId == null || pId.isEmpty() || pId.isBlank() || notLong(pId))) {
                 Long id = Long.parseLong(pId);
                 Product product = productDao.getProductById(id);
                 if (product != null) productTemp.add(product);
             }
+            else if(!(searchFor == null || searchFor.isEmpty() || searchFor.isBlank())) {
+                for (Product p : productList) {
+                    if (p.getName().toLowerCase().contains(searchFor.toLowerCase())
+                            || p.getDesc().toLowerCase().contains(searchFor.toLowerCase())
+                            || p.getType().toLowerCase().contains(searchFor.toLowerCase()))
+                        productTemp.add(p);
+                }
+            }
+            else if(!(order == null || order.isEmpty() || order.isBlank())){
+                productTemp = productDao.getAll(true);
+            }
+            else {
+                productTemp = productList;
+            }
+
         } catch(Exception e) {
             e.getStackTrace();
         }
