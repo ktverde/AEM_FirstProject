@@ -183,7 +183,7 @@ Get - Coleta uma lista de tickets cadastrados no sistema.
    
 Post - Gera um ticket no sistema.
    
-- `Body`: Ticket -> Obrigatório - Necessário um json de ticket para ser cadastrado, no corpo da requisição. Pode ser inserida uma lista de tickets também.
+- `Body`: Ticket -> Obrigatório - Necessário um json de ticket para ser gerado, no corpo da requisição. Pode ser inserida uma lista de tickets também. Obrigatório apenas um id válido de produto, id válido de usuário, e uma quantidade desejada para compra, em formato json.
 
 -----------
 
