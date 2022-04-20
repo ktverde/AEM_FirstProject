@@ -15,30 +15,21 @@
  */
 package com.adobe.aem.guides.wknd.core.servlets;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.Servlet;
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 
-import com.adobe.aem.guides.wknd.core.dao.UserDao;
 import com.adobe.aem.guides.wknd.core.models.User;
-//import com.adobe.cq.wcm.core.components.models.List;
-import com.adobe.aem.guides.wknd.core.service.UserService;
+import com.adobe.aem.guides.wknd.core.service.user.UserService;
 import com.google.gson.Gson;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.propertytypes.ServiceDescription;
 import static org.apache.sling.api.servlets.ServletResolverConstants.*;
 
@@ -57,7 +48,8 @@ import static org.apache.sling.api.servlets.ServletResolverConstants.*;
 @ServiceDescription("User Service All")
 public class LoginServlet extends SlingAllMethodsServlet {
 
-    private UserService userService = new UserService();
+    @Reference
+    private UserService userService;
     private static final long serialVersionUID = 2L;
 
 
@@ -73,8 +65,10 @@ public class LoginServlet extends SlingAllMethodsServlet {
         User user = userService.login(username, password);
         if(user == null) throw new RuntimeException("User or password is invalid");
         else{
-            Cookie cookie = new Cookie("token", "minha_chave");
+            String jwtToken = "minha_chave";
+            Cookie cookie = new Cookie("token", jwtToken);
             cookie.setMaxAge(30 * 60);
+            cookie.setPath("/");
 
             response.addCookie(cookie);
             response.setContentType("application/json");

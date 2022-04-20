@@ -17,28 +17,29 @@ package com.adobe.aem.guides.wknd.core.servlets;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
-import com.adobe.aem.guides.wknd.core.dao.UserDao;
-import com.adobe.aem.guides.wknd.core.exception.LoginInvalidException;
-import com.adobe.aem.guides.wknd.core.models.User;
 //import com.adobe.cq.wcm.core.components.models.List;
-import com.adobe.aem.guides.wknd.core.service.UserService;
-import com.google.gson.Gson;
+import com.adobe.aem.guides.wknd.core.models.ErrorMessage;
+import com.adobe.aem.guides.wknd.core.models.User;
+import com.adobe.aem.guides.wknd.core.service.db.DatabaseService;
+import com.adobe.aem.guides.wknd.core.service.user.UserService;
 
-import org.apache.commons.io.IOUtils;
+import com.drew.lang.annotations.NotNull;
+import com.google.gson.Gson;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.propertytypes.ServiceDescription;
 import static org.apache.sling.api.servlets.ServletResolverConstants.*;
 
@@ -52,6 +53,7 @@ import static org.apache.sling.api.servlets.ServletResolverConstants.*;
 @Component(immediate = true, service = Servlet.class, property = {
         SLING_SERVLET_METHODS + "=" + "POST",
         SLING_SERVLET_METHODS + "=" + "GET",
+        SLING_SERVLET_METHODS + "=" + "DELETE",
         SLING_SERVLET_PATHS + "=" + "/bin/keepalive/userService",
         SLING_SERVLET_EXTENSIONS + "=" + "txt", SLING_SERVLET_EXTENSIONS + "=" + "json"})
 
@@ -59,32 +61,71 @@ import static org.apache.sling.api.servlets.ServletResolverConstants.*;
 public class UserServlet extends SlingAllMethodsServlet {
 
     private static final long serialVersionUID = 1L;
-    private UserService userService = new UserService();
+
+    @Reference
+    private UserService userService;
 
     @Override
-    protected void doGet(final SlingHttpServletRequest req, final SlingHttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("username");
-        String json = userService.list(name);
-        resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write(json);
+    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
+        try{
+
+            String name = request.getParameter("username");
+            String json = userService.list(name);
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+
+        }catch(Exception e){
+            response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
+        }
     }
 
     @Override
-    protected void doPost(final SlingHttpServletRequest request, final SlingHttpServletResponse response) throws IOException {
-        userService.register(request, response);
+    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        try{
+            int count = userService.register(request);
+            if(count > 0)
+                response.getWriter().write(count + " usuário(s) cadastrado(s) com sucesso");
+            else
+                response.getWriter().write("Usuários já se encontram cadastrados");
+
+        }catch(Exception e){
+            response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
+        }
     }
 
     @Override
-    protected void doDelete( SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("username");
-        if(userService.delete(name))
-            response.getWriter().write("Usuario removido com sucesso");
-        else
-            response.getWriter().write("Usuario nao existe em nosso sistema");
+    protected void doDelete(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        try{
+            int count = userService.delete(request);
+            if (count > 0)
+                response.getWriter().write(count + " usuário(s) removido(s) com sucesso");
+            else
+                response.getWriter().write("Usuario(s) nao existe(m) em nosso sistema");
+
+        }catch (Exception e){
+            response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
+        }
     }
 
-//    @Override
-//    protected void doPut(@NotNull SlingHttpServletRequest request, @NotNull SlingHttpServletResponse response) throws ServletException, IOException {
-//        super.doPut(request, response);
-//    }
+    @Override
+    protected void doPut(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        try{
+
+            if(userService.update(request))
+                response.getWriter().write("Usuario alterado com sucesso com os devidos dados informados. ");
+            else
+                response.getWriter().write("Usuario nao existe em nosso sistema");
+
+        }catch(Exception e){
+            response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
+        }
+
+
+    }
 }
