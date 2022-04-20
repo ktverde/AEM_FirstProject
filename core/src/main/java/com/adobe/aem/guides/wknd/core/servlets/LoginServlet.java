@@ -68,6 +68,7 @@ public class LoginServlet extends SlingAllMethodsServlet {
             String jwtToken = "minha_chave";
             Cookie cookie = new Cookie("token", jwtToken);
             cookie.setMaxAge(30 * 60);
+            cookie.setPath("/");
 
             response.addCookie(cookie);
             response.setContentType("application/json");

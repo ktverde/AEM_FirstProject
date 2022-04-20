@@ -34,7 +34,8 @@ Private-Package: com.adobe.aem.guides.wknd.core.dao.product,com.adobe.
  ser,com.adobe.aem.guides.wknd.core.exception,com.adobe.aem.guides.wkn
  d.core.models.impl,com.adobe.aem.guides.wknd.core.service.db,com.adob
  e.aem.guides.wknd.core.service.product,com.adobe.aem.guides.wknd.core
- .service.user
+ .service.reports,com.adobe.aem.guides.wknd.core.service.tickets,com.a
+ dobe.aem.guides.wknd.core.service.user
 Provide-Capability: osgi.service;objectClass:List<String>="com.adobe.a
  em.guides.wknd.core.dao.product.ProductDao";uses:="com.adobe.aem.guid
  es.wknd.core.dao.product",osgi.service;objectClass:List<String>="com.
@@ -46,26 +47,36 @@ Provide-Capability: osgi.service;objectClass:List<String>="com.adobe.a
  .adobe.aem.guides.wknd.core.service.db",osgi.service;objectClass:List
  <String>="com.adobe.aem.guides.wknd.core.service.product.ProductServi
  ce";uses:="com.adobe.aem.guides.wknd.core.service.product",osgi.servi
- ce;objectClass:List<String>="com.adobe.aem.guides.wknd.core.service.u
- ser.UserService";uses:="com.adobe.aem.guides.wknd.core.service.user",
- osgi.service;objectClass:List<String>="java.lang.Runnable",osgi.servi
- ce;objectClass:List<String>="javax.servlet.Filter";uses:="javax.servl
- et",osgi.service;objectClass:List<String>="javax.servlet.Servlet";use
- s:="javax.servlet",osgi.service;objectClass:List<String>="org.apache.
- sling.api.resource.observation.ResourceChangeListener";uses:="org.apa
- che.sling.api.resource.observation"
+ ce;objectClass:List<String>="com.adobe.aem.guides.wknd.core.service.r
+ eports.ReportService";uses:="com.adobe.aem.guides.wknd.core.service.r
+ eports",osgi.service;objectClass:List<String>="com.adobe.aem.guides.w
+ knd.core.service.tickets.TicketService";uses:="com.adobe.aem.guides.w
+ knd.core.service.tickets",osgi.service;objectClass:List<String>="com.
+ adobe.aem.guides.wknd.core.service.user.UserService";uses:="com.adobe
+ .aem.guides.wknd.core.service.user",osgi.service;objectClass:List<Str
+ ing>="java.lang.Runnable",osgi.service;objectClass:List<String>="java
+ x.servlet.Filter";uses:="javax.servlet",osgi.service;objectClass:List
+ <String>="javax.servlet.Servlet";uses:="javax.servlet",osgi.service;o
+ bjectClass:List<String>="org.apache.sling.api.resource.observation.Re
+ sourceChangeListener";uses:="org.apache.sling.api.resource.observatio
+ n"
 Require-Capability: osgi.service;filter:="(objectClass=com.adobe.aem.g
  uides.wknd.core.dao.product.ProductDao)";effective:=active,osgi.servi
- ce;filter:="(objectClass=com.adobe.aem.guides.wknd.core.dao.user.User
- Dao)";effective:=active,osgi.service;filter:="(objectClass=com.adobe.
- aem.guides.wknd.core.service.db.DatabaseService)";effective:=active,o
- sgi.service;filter:="(objectClass=com.adobe.aem.guides.wknd.core.serv
- ice.product.ProductService)";effective:=active,osgi.service;filter:="
- (objectClass=com.adobe.aem.guides.wknd.core.service.user.UserService)
- ";effective:=active,osgi.service;filter:="(objectClass=com.day.common
- s.datasource.poolservice.DataSourcePool)";effective:=active,osgi.exte
- nder;filter:="(&(osgi.extender=osgi.component)(version>=1.4.0)(!(vers
- ion>=2.0.0)))",osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=11))"
+ ce;filter:="(objectClass=com.adobe.aem.guides.wknd.core.dao.tickets.T
+ icketDao)";effective:=active,osgi.service;filter:="(objectClass=com.a
+ dobe.aem.guides.wknd.core.dao.user.UserDao)";effective:=active,osgi.s
+ ervice;filter:="(objectClass=com.adobe.aem.guides.wknd.core.service.d
+ b.DatabaseService)";effective:=active,osgi.service;filter:="(objectCl
+ ass=com.adobe.aem.guides.wknd.core.service.product.ProductService)";e
+ ffective:=active,osgi.service;filter:="(objectClass=com.adobe.aem.gui
+ des.wknd.core.service.reports.ReportService)";effective:=active,osgi.
+ service;filter:="(objectClass=com.adobe.aem.guides.wknd.core.service.
+ tickets.TicketService)";effective:=active,osgi.service;filter:="(obje
+ ctClass=com.adobe.aem.guides.wknd.core.service.user.UserService)";eff
+ ective:=active,osgi.service;filter:="(objectClass=com.day.commons.dat
+ asource.poolservice.DataSourcePool)";effective:=active,osgi.extender;
+ filter:="(&(osgi.extender=osgi.component)(version>=1.4.0)(!(version>=
+ 2.0.0)))",osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=11))"
 Service-Component: OSGI-INF/com.adobe.aem.guides.wknd.core.dao.product
  .ProductDaoImpl.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.dao.ticke
  ts.TicketDaoImpl.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.dao.user
@@ -76,11 +87,15 @@ Service-Component: OSGI-INF/com.adobe.aem.guides.wknd.core.dao.product
  impleScheduledTask.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.servic
  e.db.DatabaseServiceImpl.xml,OSGI-INF/com.adobe.aem.guides.wknd.core.
  service.product.ProductServiceImpl.xml,OSGI-INF/com.adobe.aem.guides.
- wknd.core.service.user.UserServiceImpl.xml,OSGI-INF/com.adobe.aem.gui
- des.wknd.core.servlets.LoginServlet.xml,OSGI-INF/com.adobe.aem.guides
- .wknd.core.servlets.ProductServlet.xml,OSGI-INF/com.adobe.aem.guides.
- wknd.core.servlets.SimpleServlet.xml,OSGI-INF/com.adobe.aem.guides.wk
- nd.core.servlets.UserServlet.xml
+ wknd.core.service.reports.ReportServiceImpl.xml,OSGI-INF/com.adobe.ae
+ m.guides.wknd.core.service.tickets.TicketServiceImpl.xml,OSGI-INF/com
+ .adobe.aem.guides.wknd.core.service.user.UserServiceImpl.xml,OSGI-INF
+ /com.adobe.aem.guides.wknd.core.servlets.LoginServlet.xml,OSGI-INF/co
+ m.adobe.aem.guides.wknd.core.servlets.ProductServlet.xml,OSGI-INF/com
+ .adobe.aem.guides.wknd.core.servlets.ReportServlet.xml,OSGI-INF/com.a
+ dobe.aem.guides.wknd.core.servlets.SimpleServlet.xml,OSGI-INF/com.ado
+ be.aem.guides.wknd.core.servlets.TicketServlet.xml,OSGI-INF/com.adobe
+ .aem.guides.wknd.core.servlets.UserServlet.xml
 Sling-Model-Classes: com.adobe.aem.guides.wknd.core.models.HelloWorldM
  odel,com.adobe.aem.guides.wknd.core.models.impl.BylineImpl
 

@@ -76,27 +76,46 @@ public class UserServiceImpl implements UserService
         return count;
     }
 
-    public boolean update(String user, String username, String password, String name) {
+    public boolean update(SlingHttpServletRequest request) {
+        try {
+            String username = request.getParameter("username");
 
-        if (user == null || user.isEmpty() || user.isBlank()) return false;
+            BufferedReader reader = request.getReader();
+            Gson gson = new Gson();
+            User objUser = gson.fromJson(reader, User.class);
 
-        User u = userDao.getUserByUsername(user);
-        if (u != null) {
+            if (username == null || username.isEmpty() || username.isBlank()) return false;
 
-            if(!u.getUsername().equals(username) && username != null) {
-                if (!username.isEmpty() || !username.isBlank())
-                    u.setUsername(username);
+            User u = userDao.getUserByUsername(username);
+
+            String newUsername = null;
+            String newPassword = null;
+            String newName = null;
+
+            if(objUser != null){
+                newUsername = objUser.getUsername();
+                newPassword = objUser.getPassword();
+                newName = objUser.getName();
             }
-            if(!u.getPassword().equals(password) && password != null) {
-                if (!password.isEmpty() || !password.isBlank())
-                    u.setPassword(password);
-            }
-            if(!u.getName().equals(name) && name != null) {
-                if (!name.isEmpty() || !name.isBlank())
-                    u.setName(name);
-            }
+            if (u != null) {
 
-            return userDao.update(user, u);
+                if (!u.getUsername().equals(newUsername) && newUsername != null) {
+                    if (!newUsername.isEmpty() || !newUsername.isBlank())
+                        u.setUsername(newUsername);
+                }
+                if (!u.getPassword().equals(newPassword) && newPassword != null) {
+                    if (!newPassword.isEmpty() || !newPassword.isBlank())
+                        u.setPassword(newPassword);
+                }
+                if (!u.getName().equals(newName) && newName != null) {
+                    if (!newName.isEmpty() || !newName.isBlank())
+                        u.setName(newName);
+                }
+
+                return userDao.update(username, u);
+            }
+        }catch (Exception e){
+            throw new RuntimeException(e);
         }
         return false;
     }

@@ -204,6 +204,7 @@ Bundle-DocURL:
                             <artifactId>scriptingbundle-maven-plugin</artifactId>
                             <version>0.5.0</version>
                         </dependency>
+
                     </dependencies>
                 </plugin>
                 <plugin>

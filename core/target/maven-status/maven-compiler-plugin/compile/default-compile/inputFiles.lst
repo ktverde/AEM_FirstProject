@@ -3,9 +3,12 @@ D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\service\user\UserService.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\models\package-info.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\models\Byline.java
+D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\servlets\TicketServlet.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\utils\JwtUtils.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\models\User.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\service\db\DatabaseServiceImpl.java
+D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\service\reports\ReportService.java
+D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\models\ErrorMessage.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\service\db\DatabaseService.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\servlets\LoginServlet.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\filters\package-info.java
@@ -16,6 +19,7 @@ D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\servlets\SimpleServlet.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\dao\product\ProductDao.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\listeners\package-info.java
+D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\service\tickets\TicketService.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\service\product\ProductServiceImpl.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\service\user\UserServiceImpl.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\dao\tickets\TicketDaoImpl.java
@@ -31,4 +35,7 @@ D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\dao\tickets\TicketDao.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\schedulers\SimpleScheduledTask.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\servlets\package-info.java
+D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\service\tickets\TicketServiceImpl.java
 D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\servlets\ProductServlet.java
+D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\servlets\ReportServlet.java
+D:\AEM\aem_projects\aem-guides-wknd\core\src\main\java\com\adobe\aem\guides\wknd\core\service\reports\ReportServiceImpl.java

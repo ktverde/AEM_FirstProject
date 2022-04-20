@@ -17,5 +17,5 @@ public interface UserService
 
     User login(String username, String password);
 
-    boolean update(String user, String username, String password, String name);
+    boolean update(SlingHttpServletRequest request);
 }
