@@ -34,4 +34,13 @@ public class Ticket {
 
     public int getQt() { return qt; }
     public void setQt(int qt) { this.qt = qt; }
+
+    public BigDecimal getUnitPrice() { return unitPrice; }
+    public void setUnitPrice(BigDecimal unitPrice) { this.unitPrice = unitPrice; }
+
+    public String toHtml(){
+        return String.format("<div>Id da nota fiscal: %d</div><br><div>Id do produto: %d</div><div>Id do cliente: %d</div><div>Total da compra realizada: %f</div><div>Quantidade comprada: %d</div><div>Preço unitário: %f</div>",
+                this.id, this.productId, this.userId, this.total, this.qt, this.unitPrice);
+    }
+
 }

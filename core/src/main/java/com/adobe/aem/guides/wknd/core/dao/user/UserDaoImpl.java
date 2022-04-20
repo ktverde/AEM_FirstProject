@@ -28,20 +28,20 @@ public class UserDaoImpl implements UserDao
                 pst.execute();
                 try (ResultSet rs = pst.getResultSet()) {
                     while (rs.next()) {
-                        User user = new User(rs.getString(1),rs.getString(2),rs.getString(3));
+                        User user = new User(rs.getString(1),rs.getString(2),rs.getString(3), rs.getLong(4));
                         listUsers.add(user);
                     }
                 }
                 catch (Exception e) {
-                    throw new RuntimeException(e.getMessage() + "1");
+                    throw new RuntimeException(e);
                 }
             }
             catch (Exception e) {
-                throw new RuntimeException(e.getMessage() + "2");
+                throw new RuntimeException(e);
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e.getMessage() + "3");
+            throw new RuntimeException(e);
         }
         return listUsers;
     }
@@ -57,15 +57,43 @@ public class UserDaoImpl implements UserDao
                 pst.execute();
             }
             catch (Exception e) {
-                throw new RuntimeException(e.getMessage() + "2");
+                throw new RuntimeException(e);
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e.getMessage() + "3");
+            throw new RuntimeException(e);
         }
+    }
+    public User getUserById(Long id) {
+        User user = null;
+        if(id == null) return user;
+        try (Connection con = databaseService.getConnection()) {
+            String sql = "SELECT * FROM users WHERE uId = ?";
+
+            try(PreparedStatement pst = con.prepareStatement(sql)) {
+                pst.setLong(1, id);
+                pst.execute();
+
+                try(ResultSet rs = pst.getResultSet()){
+                    if(rs.next())
+                        user = new User(rs.getString(1),rs.getString(2),rs.getString(3), rs.getLong(4));
+
+                }catch (Exception e){
+                    throw new RuntimeException(e);
+                }
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return user;
     }
     public User getUserByUsername(String username) {
         User user = null;
+        if(username == null) return user;
         try (Connection con = databaseService.getConnection()) {
             String sql = "SELECT * FROM users WHERE username = ?";
 
@@ -75,18 +103,18 @@ public class UserDaoImpl implements UserDao
 
                 try(ResultSet rs = pst.getResultSet()){
                     if(rs.next())
-                        user = new User(rs.getString(1),rs.getString(2),rs.getString(3));
+                        user = new User(rs.getString(1),rs.getString(2),rs.getString(3), rs.getLong(4));
 
                 }catch (Exception e){
                     throw new RuntimeException(e);
                 }
             }
             catch (Exception e) {
-                throw new RuntimeException(e.getMessage() + "2");
+                throw new RuntimeException(e);
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e.getMessage() + "3");
+            throw new RuntimeException(e);
         }
         return user;
     }
@@ -109,11 +137,11 @@ public class UserDaoImpl implements UserDao
                 pst.execute();
             }
             catch (Exception e) {
-                throw new RuntimeException(e.getMessage() + "2");
+                throw new RuntimeException(e);
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e.getMessage() + "3");
+            throw new RuntimeException(e);
         }
     }
 
@@ -130,11 +158,11 @@ public class UserDaoImpl implements UserDao
                 pst.execute();
             }
             catch (Exception e) {
-                throw new RuntimeException(e.getMessage() + "2");
+                throw new RuntimeException(e);
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e.getMessage() + "3");
+            throw new RuntimeException(e);
         }
         return true;
     }

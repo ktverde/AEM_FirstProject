@@ -34,4 +34,9 @@ public class Product {
 
     public String getDesc() { return description; }
     public void setDesc(String description) { this.description = description; }
+
+    public String toHtml() {
+        return String.format("<div>Nome do produto: %s</div><div>Descrição: %s</div><div>Preço: %f</div>",
+                this.name, this.description, this.price);
+    }
 }

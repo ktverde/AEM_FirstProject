@@ -1,8 +1,6 @@
 package com.adobe.aem.guides.wknd.core.dao.product;
 
-import com.adobe.aem.guides.wknd.core.dao.user.UserDao;
 import com.adobe.aem.guides.wknd.core.models.Product;
-import com.adobe.aem.guides.wknd.core.models.User;
 import com.adobe.aem.guides.wknd.core.service.db.DatabaseService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -18,8 +16,6 @@ import java.util.Set;
 @Component(immediate = true, service = ProductDao.class)
 public class ProductDaoImpl implements ProductDao
 {
-    private static final long serialVersionUID = 3L;
-
     @Reference
     private DatabaseService databaseService;
 
@@ -39,15 +35,15 @@ public class ProductDaoImpl implements ProductDao
                     }
                 }
                 catch (Exception e) {
-                    throw new RuntimeException(e.getMessage() + "1");
+                    throw new RuntimeException(e);
                 }
             }
             catch (Exception e) {
-                throw new RuntimeException(e.getMessage() + "2");
+                throw new RuntimeException(e);
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e.getMessage() + "3");
+            throw new RuntimeException(e);
         }
         return listProducts;
     }
@@ -66,15 +62,17 @@ public class ProductDaoImpl implements ProductDao
                 pst.execute();
             }
             catch (Exception e) {
-                throw new RuntimeException(e.getMessage() + "2");
+                throw new RuntimeException(e);
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e.getMessage() + "3");
+            throw new RuntimeException(e);
         }
     }
     public Product getProductById(Long pId) {
         Product product = null;
+        if(pId == null) return product;
+
         try (Connection con = databaseService.getConnection()) {
             String sql = "SELECT * FROM products WHERE pId = ?";
 
@@ -91,11 +89,11 @@ public class ProductDaoImpl implements ProductDao
                 }
             }
             catch (Exception e) {
-                throw new RuntimeException(e.getMessage() + "2");
+                throw new RuntimeException(e);
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e.getMessage() + "3");
+            throw new RuntimeException(e);
         }
         return product;
     }
@@ -110,11 +108,11 @@ public class ProductDaoImpl implements ProductDao
                 pst.execute();
             }
             catch (Exception e) {
-                throw new RuntimeException(e.getMessage() + "2");
+                throw new RuntimeException(e);
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e.getMessage() + "3");
+            throw new RuntimeException(e);
         }
     }
 
@@ -133,11 +131,11 @@ public class ProductDaoImpl implements ProductDao
                 pst.execute();
             }
             catch (Exception e) {
-                throw new RuntimeException(e.getMessage() + "2");
+                throw new RuntimeException(e);
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e.getMessage() + "3");
+            throw new RuntimeException(e);
         }
         return true;
     }

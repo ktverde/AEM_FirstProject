@@ -27,6 +27,7 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
 //import com.adobe.cq.wcm.core.components.models.List;
+import com.adobe.aem.guides.wknd.core.models.ErrorMessage;
 import com.adobe.aem.guides.wknd.core.models.User;
 import com.adobe.aem.guides.wknd.core.service.db.DatabaseService;
 import com.adobe.aem.guides.wknd.core.service.user.UserService;
@@ -66,10 +67,16 @@ public class UserServlet extends SlingAllMethodsServlet {
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("username");
-        String json = userService.list(name);
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(json);
+        try{
+
+            String name = request.getParameter("username");
+            String json = userService.list(name);
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+
+        }catch(Exception e){
+            response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
+        }
     }
 
     @Override
@@ -82,36 +89,43 @@ public class UserServlet extends SlingAllMethodsServlet {
                 response.getWriter().write(count + " usuário(s) cadastrado(s) com sucesso");
             else
                 response.getWriter().write("Usuários já se encontram cadastrados");
+
         }catch(Exception e){
-            response.getWriter().write(e.getMessage());
+            response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
         }
     }
 
     @Override
     protected void doDelete(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
-        int count = userService.delete(request);
-        if(count > 0)
-            response.getWriter().write(count + " usuário(s) removido(s) com sucesso");
-        else
-            response.getWriter().write("Usuario(s) nao existe(m) em nosso sistema");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        try{
+            int count = userService.delete(request);
+            if (count > 0)
+                response.getWriter().write(count + " usuário(s) removido(s) com sucesso");
+            else
+                response.getWriter().write("Usuario(s) nao existe(m) em nosso sistema");
 
+        }catch (Exception e){
+            response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
+        }
     }
 
     @Override
     protected void doPut(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
-        String user = request.getParameter("username");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        try{
 
-        BufferedReader reader = request.getReader();
-        Gson gson = new Gson();
-        User objUser = gson.fromJson(reader, User.class);
-        if(objUser != null){
-            if(userService.update(user, objUser.getUsername(), objUser.getPassword(), objUser.getName()))
+            if(userService.update(request))
                 response.getWriter().write("Usuario alterado com sucesso com os devidos dados informados. ");
             else
                 response.getWriter().write("Usuario nao existe em nosso sistema");
+
+        }catch(Exception e){
+            response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
         }
-        else
-            response.getWriter().write("Informe o Json do usuário para ser atualizado");
+
 
     }
 }

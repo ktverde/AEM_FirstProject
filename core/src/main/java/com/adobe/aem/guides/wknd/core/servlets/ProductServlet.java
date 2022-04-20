@@ -15,6 +15,7 @@
  */
 package com.adobe.aem.guides.wknd.core.servlets;
 
+import com.adobe.aem.guides.wknd.core.models.ErrorMessage;
 import com.adobe.aem.guides.wknd.core.models.Product;
 import com.adobe.aem.guides.wknd.core.models.User;
 import com.adobe.aem.guides.wknd.core.service.product.ProductService;
@@ -59,9 +60,13 @@ public class ProductServlet extends SlingAllMethodsServlet {
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
-        String json = productService.list(request);
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(json);
+        try{
+            String json = productService.list(request);
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+        }catch (Exception e){
+            response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
+        }
     }
 
     @Override
@@ -75,7 +80,7 @@ public class ProductServlet extends SlingAllMethodsServlet {
             else
                 response.getWriter().write("Id de produto(s) já se encontra(m) cadastrado(s)");
         }catch(Exception e){
-            response.getWriter().write(e.getMessage());
+            response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
         }
     }
 
@@ -90,27 +95,24 @@ public class ProductServlet extends SlingAllMethodsServlet {
             else
                 response.getWriter().write("Produto(s) não existe(m) em nosso sistema");
         }catch (Exception e){
-            throw new RuntimeException(e);
+            response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
         }
 
     }
 
     @Override
     protected void doPut(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
-        String product = request.getParameter("pId");
-
-        BufferedReader reader = request.getReader();
-        Gson gson = new Gson();
-        Product objProduct = gson.fromJson(reader, Product.class);
-
-        if(objProduct != null){
-            if(productService.update(product, objProduct.getName(), objProduct.getDesc(), objProduct.getType(), objProduct.getPrice()))
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        try{
+            if (productService.update(request))
                 response.getWriter().write("Produto alterado com sucesso com os devidos dados informados. ");
             else
                 response.getWriter().write("Produto nao existe em nosso sistema");
+
+        }catch(Exception e){
+            response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
         }
-        else
-            response.getWriter().write("Informe o Json do produto para ser atualizado");
 
     }
 }
