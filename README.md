@@ -140,7 +140,7 @@ Post - Cadastra um usuário no sistema.
 
 Delete - Deleta um usuário ou uma lista de usuários cadastrados no sistema.
     
-- `Body`: User -> Obrigatório - Necessário um json de usuário, contendo pelo menos o username para ser deletado, no corpo da requisição. Pode ser inserida uma lista  também.
+- `Body`: User -> Obrigatório - Necessário um json de usuário, contendo pelo menos o username ou o id do usuário para ser deletado, no corpo da requisição. Pode ser inserida uma lista  também.
 
 Put - Atualiza um usuário no sistema.
    
