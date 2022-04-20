@@ -64,6 +64,7 @@ public class TicketServiceImpl implements TicketService
     public String list(SlingHttpServletRequest request) {
         String id = request.getParameter("id");
         String userId = request.getParameter("uId");
+        boolean check = false;
 
         Set<Ticket> ticketList = ticketDao.getAll();
         Set<Ticket> ticketTemp = new HashSet<>();
@@ -72,15 +73,16 @@ public class TicketServiceImpl implements TicketService
                 Long longId = Long.parseLong(id);
                 Ticket ticket = ticketDao.getTicketById(longId);
                 if (ticket != null) ticketTemp.add(ticket);
+                else check = true;
             }
             if(!(userId == null || userId.isEmpty() || userId.isBlank() || notLong(userId))) {
                 Long longUserId = Long.parseLong(userId);
                 Set<Ticket> tickets = ticketDao.getTicketByUserId(longUserId);
                 ticketTemp.addAll(tickets);
             }
-            else {
-                ticketTemp = ticketList;
-            }
+
+            if(check) return "Nenhuma nota fiscal encontrada";
+            else if(ticketTemp.isEmpty()) ticketTemp = ticketList;
 
         } catch(Exception e) {
             throw new RuntimeException(e);

@@ -70,9 +70,11 @@ public class ProductServiceImpl implements ProductService
                 }
             }
             if(!(order == null || order.isEmpty() || order.isBlank())){
-                if(productTemp.isEmpty()) productTemp = productDao.getAll(true);
-                else {
-                    productTemp = productTemp.stream().sorted(Comparator.comparing(Product::getPrice)).collect(Collectors.toCollection(LinkedHashSet::new));
+                if(order.equals("s")) {
+                    if (productTemp.isEmpty()) productTemp = productDao.getAll(true);
+                    else {
+                        productTemp = productTemp.stream().sorted(Comparator.comparing(Product::getPrice)).collect(Collectors.toCollection(LinkedHashSet::new));
+                    }
                 }
             }
 
@@ -110,7 +112,6 @@ public class ProductServiceImpl implements ProductService
     }
 
     public boolean update(SlingHttpServletRequest request) {
-
         try{
 
             String pId = request.getParameter("pId");

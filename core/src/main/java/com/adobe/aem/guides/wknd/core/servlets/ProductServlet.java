@@ -78,7 +78,7 @@ public class ProductServlet extends SlingAllMethodsServlet {
             if(count > 0)
                 response.getWriter().write(count + " produto(s) cadastrado(s) com sucesso");
             else
-                response.getWriter().write("Id de produto(s) já se encontra(m) cadastrado(s)");
+                response.getWriter().write("O(s) produto(s) já se encontra(m) cadastrado(s) no sistema. Cheque a lista de produtos cadastrados.");
         }catch(Exception e){
             response.getWriter().write(new Gson().toJson(new ErrorMessage(e.getMessage(), 401, "http://localhost:4502")));
         }

@@ -1,6 +1,7 @@
 package com.adobe.aem.guides.wknd.core.models;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Product {
     private Long pId;
@@ -34,6 +35,19 @@ public class Product {
 
     public String getDesc() { return description; }
     public void setDesc(String description) { this.description = description; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return pId.equals(product.pId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pId);
+    }
 
     public String toHtml() {
         return String.format("<div>Nome do produto: %s</div><div>Descrição: %s</div><div>Preço: %f</div>",

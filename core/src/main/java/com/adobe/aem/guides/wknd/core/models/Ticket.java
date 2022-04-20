@@ -1,6 +1,7 @@
 package com.adobe.aem.guides.wknd.core.models;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Ticket {
 
@@ -38,9 +39,22 @@ public class Ticket {
     public BigDecimal getUnitPrice() { return unitPrice; }
     public void setUnitPrice(BigDecimal unitPrice) { this.unitPrice = unitPrice; }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ticket)) return false;
+        Ticket ticket = (Ticket) o;
+        return id.equals(ticket.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
     public String toHtml(){
-        return String.format("<div>Id da nota fiscal: %d</div><br><div>Id do produto: %d</div><div>Id do cliente: %d</div><div>Total da compra realizada: %f</div><div>Quantidade comprada: %d</div><div>Preço unitário: %f</div>",
-                this.id, this.productId, this.userId, this.total, this.qt, this.unitPrice);
+        return String.format("<div>Id da nota fiscal: %d</div><br><div>Id do produto: %d</div><div>Id do cliente: %d</div><div>Total da compra realizada: %f</div><div>Quantidade comprada: %d</div>",
+                this.id, this.productId, this.userId, this.total, this.qt);
     }
 
 }
