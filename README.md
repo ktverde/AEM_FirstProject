@@ -124,3 +124,80 @@ A ClientLib will consist of the following files and directories:
 The project comes with the auto-public repository configured. To setup the repository in your Maven settings, refer to:
 
     http://helpx.adobe.com/experience-manager/kb/SetUpTheAdobeMavenRepository.html
+    
+## EndPoints
+
+    /bin/keepalive/userService
+    
+Get - Coleta uma lista de usuários cadastrados no sistema.
+    
+- `Parâmetros`: nenhum -> Exibe todos os produtos cadastrados.
+- username -> Opcional - Filtra apenas o usuário ao qual foi informado o username.
+   
+Post - Cadastra um usuário no sistema.
+   
+- `Body`: User -> Obrigatório - Necessário um json de usuário para ser cadastrado, no corpo da requisição. Pode ser inserida uma lista de usuários também.
+
+Delete - Deleta um usuário ou uma lista de usuários cadastrados no sistema.
+    
+- `Body`: User -> Obrigatório - Necessário um json de usuário, contendo pelo menos o username para ser deletado, no corpo da requisição. Pode ser inserida uma lista  também.
+
+Put - Atualiza um usuário no sistema.
+   
+- `Body`: User -> Obrigatório - Necessário um json de usuário para ser atualizado, no corpo da requisição. O json do usuário apenas atualizará as informações divergentes, por exemplo, ao enviar um json vazio, nenhuma alteração será feita. Ao mandar um json apenas com um username, apenas o username será atualizado, mantendo as outras informações.
+- `Parâmetros`: username -> Obrigatório - Indica qual usuário será atualizado.
+
+-----------
+
+    /bin/keepalive/productService
+    
+Get - Coleta uma lista de produtos cadastrados no sistema.
+    
+- `Parametros`: nenhum -> Exibe todos os produtos cadastrados.
+- pId -> Opcional - Filtra apenas o produto ao qual foi informado o id.
+- searchFor -> Opcional - Filtra a lista por uma palavra específica informada. 
+- order -> Opcional - Ordena a lista, em ordem crescente de preços.
+   
+Post - Cadastra um produto no sistema.
+   
+- `Body`: Product -> Obrigatório - Necessário um json de produto para ser cadastrado, no corpo da requisição. Pode ser inserida uma lista de produtos também.
+
+Delete - Deleta um produto ou uma lista de produtos cadastrados no sistema.
+    
+- `Body`: Product -> Obrigatório - Necessário um json de produto, contendo pelo menos o seu id para ser deletado, no corpo da requisição. Pode ser inserida uma lista  também.
+
+Put - Atualiza um produto no sistema.
+   
+- `Body`: Product -> Obrigatório - Necessário um json de produto para ser atualizado, no corpo da requisição. O json do produto apenas atualizará as informações divergentes, por exemplo, ao enviar um json vazio, nenhuma alteração será feita. Ao mandar um json apenas com um preço, apenas o preço será atualizado, mantendo as outras informações.
+- `Parâmetros`: pId -> Obrigatório - Indica qual produto será atualizado.
+
+-----------
+
+    /bin/keepalive/ticketService
+    
+Get - Coleta uma lista de tickets cadastrados no sistema.
+    
+- `Parametros`: nenhum -> Exibe todos os tickets gerados.
+- id -> Opcional - Filtra apenas o ticket ao qual foi informado o id.
+- uId -> Opcional - Filtra apenas os tickets que estão relacionados ao id de usuário informado por esse parâmetro.
+   
+Post - Gera um ticket no sistema.
+   
+- `Body`: Ticket -> Obrigatório - Necessário um json de ticket para ser gerado, no corpo da requisição. Pode ser inserida uma lista de tickets também. Obrigatório apenas um id válido de produto, id válido de usuário, e uma quantidade desejada para compra, em formato json.
+
+-----------
+
+    /bin/product/user/report
+    
+Get - Gera um relatório de compras de um determinado usuário, informado por parâmetro.
+    
+- `Parametros`:
+- username -> Obrigatório - Informa um relatório do username informado.
+- uId -> Obrigatório - Informa um relatório do id de usuário informado.
+
+Apenas um dos parâmetros é obrigatório ser informado para o relatório ser gerado.
+
+Caso os dois parâmetros sejam informados, o relatório será gerado para dois usuários, caso os mesmos sejam diferentes.
+Caso sejam iguais, será informado um relatório único.
+
+-----------
