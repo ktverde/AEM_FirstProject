@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService
             List<User> userList = new Gson().fromJson(reader, listType);
 
             for (User u : userList) {
-                if (userDao.getUserByUsername(u.getUsername()) != null) {
+                if (userDao.getUserByUsername(u.getUsername()) != null || userDao.getUserById(u.getuId()) != null) {
                     userDao.delete(u.getUsername());
                     count++;
                 }
